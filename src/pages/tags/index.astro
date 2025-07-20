@@ -1,0 +1,212 @@
+---
+import { getTags, getPosts } from '../../lib/microcms';
+import type { Tag, Post } from '../../types/blog';
+
+const tagsResponse = await getTags();
+const postsResponse = await getPosts();
+const tags: Tag[] = tagsResponse.contents;
+const posts: Post[] = postsResponse.contents;
+
+const tagCounts = tags.map(tag => {
+  const count = posts.filter(post => 
+    post.tags && post.tags.some(postTag => postTag.slug === tag.slug)
+  ).length;
+  return { ...tag, count };
+});
+---
+
+<html lang="ja">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>タグ一覧 | 個人ブログ</title>
+		<meta name="description" content="個人ブログのタグ一覧ページ" />
+	</head>
+	<body>
+		<header>
+			<h1>
+				<a href="/">個人ブログ</a>
+			</h1>
+			<nav>
+				<a href="/">ホーム</a>
+				<a href="/tags">タグ一覧</a>
+			</nav>
+		</header>
+
+		<main>
+			<section class="tags-section">
+				<h2>タグ一覧</h2>
+				{tagCounts.length === 0 ? (
+					<p>タグがありません。</p>
+				) : (
+					<div class="tags-grid">
+						{tagCounts.map((tag) => (
+							<div class="tag-card">
+								<h3>
+									<a href={`/tags/${tag.slug}`}>{tag.name}</a>
+								</h3>
+								<p class="tag-count">{tag.count}件の記事</p>
+							</div>
+						))}
+					</div>
+				)}
+			</section>
+		</main>
+
+		<footer>
+			<p>&copy; 2024 個人ブログ</p>
+		</footer>
+	</body>
+</html>
+
+<style>
+	:root {
+		--primary-color: #ffd700;
+		--primary-light: #fff44f;
+		--primary-dark: #ccaa00;
+		--text-color: #333333;
+		--background-color: #ffffff;
+		--light-background: #fffef7;
+		--border-color: #e6e6e6;
+		--shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	body {
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+		line-height: 1.6;
+		color: var(--text-color);
+		background-color: var(--background-color);
+	}
+
+	header {
+		background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+		padding: 1rem 0;
+		box-shadow: var(--shadow);
+	}
+
+	header h1 {
+		text-align: center;
+		font-size: 2rem;
+		margin-bottom: 1rem;
+		color: var(--text-color);
+	}
+
+	header h1 a {
+		color: var(--text-color);
+		text-decoration: none;
+	}
+
+	header h1 a:hover {
+		color: var(--primary-dark);
+	}
+
+	nav {
+		text-align: center;
+	}
+
+	nav a {
+		color: var(--text-color);
+		text-decoration: none;
+		margin: 0 1rem;
+		font-weight: 500;
+		padding: 0.5rem 1rem;
+		border-radius: 4px;
+		transition: background-color 0.3s ease;
+	}
+
+	nav a:hover {
+		background-color: rgba(255, 255, 255, 0.2);
+	}
+
+	main {
+		max-width: 800px;
+		margin: 2rem auto;
+		padding: 0 1rem;
+	}
+
+	.tags-section h2 {
+		margin-bottom: 2rem;
+		color: var(--text-color);
+		font-size: 1.5rem;
+	}
+
+	.tags-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 1.5rem;
+	}
+
+	.tag-card {
+		background: var(--light-background);
+		border: 1px solid var(--border-color);
+		border-radius: 8px;
+		padding: 1.5rem;
+		box-shadow: var(--shadow);
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+		text-align: center;
+	}
+
+	.tag-card:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+	}
+
+	.tag-card h3 {
+		margin-bottom: 0.5rem;
+	}
+
+	.tag-card h3 a {
+		color: var(--text-color);
+		text-decoration: none;
+		font-size: 1.25rem;
+		font-weight: 600;
+	}
+
+	.tag-card h3 a:hover {
+		color: var(--primary-dark);
+	}
+
+	.tag-count {
+		color: #666;
+		font-size: 0.9rem;
+	}
+
+	footer {
+		text-align: center;
+		padding: 2rem 0;
+		background-color: var(--light-background);
+		border-top: 1px solid var(--border-color);
+		margin-top: 4rem;
+	}
+
+	@media (max-width: 768px) {
+		header h1 {
+			font-size: 1.5rem;
+		}
+		
+		nav a {
+			margin: 0 0.5rem;
+			padding: 0.25rem 0.5rem;
+		}
+		
+		main {
+			padding: 0 0.5rem;
+		}
+		
+		.tags-grid {
+			grid-template-columns: 1fr;
+		}
+		
+		.tag-card {
+			padding: 1rem;
+		}
+	}
+</style>
