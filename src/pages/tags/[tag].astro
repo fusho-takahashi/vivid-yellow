@@ -1,11 +1,11 @@
 ---
-import { getTags, getPostsByTag } from '../../lib/microcms';
-import type { Tag, Post } from '../../types/blog';
+import { getPostsByTag, getTags } from '../../lib/microcms';
+import type { Post, Tag } from '../../types/blog';
 
 export async function getStaticPaths() {
   const tagsResponse = await getTags();
   return tagsResponse.contents.map((tag: Tag) => ({
-    params: { tag: tag.slug },
+    params: { tag: tag.id },
   }));
 }
 
@@ -14,7 +14,7 @@ const postsResponse = await getPostsByTag(tag as string);
 const posts: Post[] = postsResponse.contents;
 
 const tagsResponse = await getTags();
-const currentTag = tagsResponse.contents.find((t: Tag) => t.slug === tag);
+const currentTag = tagsResponse.contents.find((t: Tag) => t.id === tag);
 ---
 
 <html lang="ja">
@@ -57,7 +57,7 @@ const currentTag = tagsResponse.contents.find((t: Tag) => t.slug === tag);
 							{posts.map((post) => (
 								<article class="post-card">
 									<h3>
-										<a href={`/posts/${post.slug}`}>{post.title}</a>
+										<a href={`/posts/${post.id}`}>{post.title}</a>
 									</h3>
 									<time datetime={post.publishedAt}>
 										{new Date(post.publishedAt).toLocaleDateString('ja-JP')}
@@ -65,7 +65,7 @@ const currentTag = tagsResponse.contents.find((t: Tag) => t.slug === tag);
 									{post.tags && post.tags.length > 0 && (
 										<div class="tags">
 											{post.tags.map((postTag) => (
-												<a href={`/tags/${postTag.slug}`} class="tag">
+												<a href={`/tags/${postTag.id}`} class="tag">
 													{postTag.name}
 												</a>
 											))}

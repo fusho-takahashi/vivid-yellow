@@ -34,7 +34,7 @@ const posts: Post[] = postsResponse.contents;
 						{posts.map((post) => (
 							<article class="post-card">
 								<h3>
-									<a href={`/posts/${post.slug}`}>{post.title}</a>
+									<a href={`/posts/${post.id}`}>{post.title}</a>
 								</h3>
 								<time datetime={post.publishedAt}>
 									{new Date(post.publishedAt).toLocaleDateString('ja-JP')}
@@ -42,7 +42,7 @@ const posts: Post[] = postsResponse.contents;
 								{post.tags && post.tags.length > 0 && (
 									<div class="tags">
 										{post.tags.map((tag) => (
-											<a href={`/tags/${tag.slug}`} class="tag">
+											<a href={`/tags/${tag.id}`} class="tag">
 												{tag.name}
 											</a>
 										))}

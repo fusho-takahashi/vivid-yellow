@@ -1,8 +1,8 @@
-import { createClient } from 'microcms-js-sdk';
-import type { Post, PostsResponse, Tag, TagsResponse } from '../types/blog';
+import { createClient } from "microcms-js-sdk";
+import type { Post, PostsResponse, TagsResponse } from "../types/blog";
 
 if (!import.meta.env.MICROCMS_SERVICE_DOMAIN || !import.meta.env.MICROCMS_API_KEY) {
-  throw new Error('microCMS service domain and API key are required');
+  throw new Error("microCMS service domain and API key are required");
 }
 
 export const client = createClient({
@@ -12,40 +12,34 @@ export const client = createClient({
 
 export const getPosts = async (): Promise<PostsResponse> => {
   return await client.get({
-    endpoint: 'posts',
+    endpoint: "posts",
     queries: {
-      orders: '-publishedAt',
+      orders: "-publishedAt",
     },
   });
 };
 
 export const getPost = async (slug: string): Promise<Post> => {
   const response = await client.get({
-    endpoint: 'posts',
-    queries: {
-      filters: `slug[equals]${slug}`,
-    },
+    endpoint: "posts",
+    contentId: slug,
   });
-  
-  if (response.contents.length === 0) {
-    throw new Error('Post not found');
-  }
-  
-  return response.contents[0];
+
+  return response;
 };
 
 export const getTags = async (): Promise<TagsResponse> => {
   return await client.get({
-    endpoint: 'tags',
+    endpoint: "tags",
   });
 };
 
 export const getPostsByTag = async (tagSlug: string): Promise<PostsResponse> => {
   return await client.get({
-    endpoint: 'posts',
+    endpoint: "posts",
     queries: {
       filters: `tags[contains]${tagSlug}`,
-      orders: '-publishedAt',
+      orders: "-publishedAt",
     },
   });
 };

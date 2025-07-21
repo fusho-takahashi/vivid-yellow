@@ -5,7 +5,7 @@ import type { Post } from '../../types/blog';
 export async function getStaticPaths() {
   const postsResponse = await getPosts();
   return postsResponse.contents.map((post: Post) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
   }));
 }
 
@@ -43,7 +43,7 @@ const post = await getPost(slug as string);
 					{post.tags && post.tags.length > 0 && (
 						<div class="tags">
 							{post.tags.map((tag) => (
-								<a href={`/tags/${tag.slug}`} class="tag">
+								<a href={`/tags/${tag.id}`} class="tag">
 									{tag.name}
 								</a>
 							))}

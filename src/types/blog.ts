@@ -5,7 +5,6 @@ export interface Tag {
   publishedAt: string;
   revisedAt: string;
   name: string;
-  slug: string;
 }
 
 export interface Post {
@@ -17,7 +16,6 @@ export interface Post {
   title: string;
   content: string;
   tags: Tag[];
-  slug: string;
 }
 
 export interface PostsResponse {
