@@ -38,18 +38,20 @@ const post = await getPost(slug as string);
 			<article class="post">
 				<header class="post-header">
 					<h1>{post.title}</h1>
-					<time datetime={post.publishedAt}>
-						{new Date(post.publishedAt).toLocaleDateString('ja-JP')}
-					</time>
-					{post.tags && post.tags.length > 0 && (
-						<div class="tags">
-							{post.tags.map((tag) => (
-								<a href={`/tags/${tag.id}`} class="tag">
-									{tag.name}
-								</a>
-							))}
-						</div>
-					)}
+					<div class="post-header-meta">
+						<time datetime={post.publishedAt}>
+							{new Date(post.publishedAt).toLocaleDateString('ja-JP')}
+						</time>
+						{post.tags && post.tags.length > 0 && (
+							<div class="tags">
+								{post.tags.map((tag) => (
+									<a href={`/tags/${tag.id}`} class="tag">
+										{tag.name}
+									</a>
+								))}
+							</div>
+						)}
+					</div>
 				</header>
 
 				<div class="post-content" set:html={post.content}></div>
