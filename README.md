@@ -130,12 +130,34 @@ microCMSで以下のAPIを作成してください：
 
 ### Cloudflare Pagesでのデプロイ
 
-1. Cloudflare Pagesでプロジェクトを作成
-2. 環境変数を設定：
-   - `MICROCMS_SERVICE_DOMAIN`
-   - `MICROCMS_API_KEY`
-3. ビルドコマンド：`npm run build`
-4. 出力ディレクトリ：`dist`
+#### 1. GitHubリポジトリの準備
+このプロジェクトは既にGitHubにプッシュされています：
+```
+https://github.com/fusho-takahashi/vivid-yellow.git
+```
+
+#### 2. Cloudflare Pagesでの設定
+1. [Cloudflare Pages](https://pages.cloudflare.com/) にログイン
+2. 「Create a project」をクリック
+3. 「Connect to Git」を選択してGitHubを連携
+4. `vivid-yellow` リポジトリを選択
+5. 以下の設定を入力：
+   - **Project name**: `vivid-yellow` (任意)
+   - **Production branch**: `main`
+   - **Build command**: `npm run build`
+   - **Build output directory**: `dist`
+
+#### 3. 環境変数の設定
+「Settings」→「Environment variables」で以下を設定：
+- `MICROCMS_SERVICE_DOMAIN`: あなたのmicroCMSサービスドメイン
+- `MICROCMS_API_KEY`: あなたのmicroCMS APIキー
+
+#### 4. デプロイ
+設定完了後、自動的にビルド・デプロイが開始されます。
+以降、`main`ブランチへのプッシュで自動デプロイされます。
+
+#### 5. カスタムドメイン（オプション）
+「Custom domains」で独自ドメインを設定可能です。
 
 ## 📝 機能
 

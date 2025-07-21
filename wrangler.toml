@@ -1,0 +1,5 @@
+name = "vivid-yellow"
+compatibility_date = "2025-07-21"
+
+[env.production.assets]
+directory = "./dist"
