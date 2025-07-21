@@ -1,7 +1,7 @@
 ---
 import { getPostsByTag, getTags } from '../../lib/microcms';
 import type { Post, Tag } from '../../types/blog';
-import '../../styles/global.css';
+import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
   const tagsResponse = await getTags();
@@ -18,69 +18,50 @@ const tagsResponse = await getTags();
 const currentTag = tagsResponse.contents.find((t: Tag) => t.id === tag);
 ---
 
-<html lang="ja">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{currentTag?.name}の記事一覧 | VIVID YELLOW</title>
-		<meta name="description" content={`${currentTag?.name}タグの記事一覧`} />
-	</head>
-	<body>
-		<header>
-			<h1>
-				<a href="/">VIVID YELLOW</a>
-			</h1>
-		</header>
+<Layout 
+	title={`${currentTag?.name}の記事一覧 | VIVID YELLOW`} 
+	description={`${currentTag?.name}タグの記事一覧`}
+>
+	<section class="posts">
+		<div class="page-header">
+			<h2>
+				<span class="tag-name">{currentTag?.name}</span>の記事一覧
+			</h2>
+			<p class="post-count">{posts.length}件の記事</p>
+		</div>
 
-		<main>
-			<section class="posts">
-				<div class="page-header">
-					<h2>
-						<span class="tag-name">{currentTag?.name}</span>の記事一覧
-					</h2>
-					<p class="post-count">{posts.length}件の記事</p>
+		{posts.length === 0 ? (
+			<div class="no-posts">
+				<p>このタグの記事がありません。</p>
+				<a href="/tags" class="back-link">← タグ一覧に戻る</a>
+			</div>
+		) : (
+			<>
+				<div class="post-list">
+					{posts.map((post) => (
+						<article class="post-card">
+							<h3>
+								<a href={`/posts/${post.id}`}>{post.title}</a>
+							</h3>
+							<time datetime={post.publishedAt}>
+								{new Date(post.publishedAt).toLocaleDateString('ja-JP')}
+							</time>
+							{post.tags && post.tags.length > 0 && (
+								<div class="tags">
+									{post.tags.map((postTag) => (
+										<a href={`/tags/${postTag.id}`} class="tag">
+											{postTag.name}
+										</a>
+									))}
+								</div>
+							)}
+						</article>
+					))}
 				</div>
-
-				{posts.length === 0 ? (
-					<div class="no-posts">
-						<p>このタグの記事がありません。</p>
-						<a href="/tags" class="back-link">← タグ一覧に戻る</a>
-					</div>
-				) : (
-					<>
-						<div class="post-list">
-							{posts.map((post) => (
-								<article class="post-card">
-									<h3>
-										<a href={`/posts/${post.id}`}>{post.title}</a>
-									</h3>
-									<time datetime={post.publishedAt}>
-										{new Date(post.publishedAt).toLocaleDateString('ja-JP')}
-									</time>
-									{post.tags && post.tags.length > 0 && (
-										<div class="tags">
-											{post.tags.map((postTag) => (
-												<a href={`/tags/${postTag.id}`} class="tag">
-													{postTag.name}
-												</a>
-											))}
-										</div>
-									)}
-								</article>
-							))}
-						</div>
-						<div class="navigation">
-							<a href="/tags" class="back-link">← タグ一覧に戻る</a>
-						</div>
-					</>
-				)}
-			</section>
-		</main>
-
-		<footer>
-			<p>&copy; 2024 VIVID YELLOW</p>
-		</footer>
-	</body>
-</html>
+				<div class="navigation">
+					<a href="/tags" class="back-link">← タグ一覧に戻る</a>
+				</div>
+			</>
+		)}
+	</section>
+</Layout>

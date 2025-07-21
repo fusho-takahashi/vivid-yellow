@@ -1,0 +1,35 @@
+---
+export interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "日記と技術発信を行うための個人ブログ" } = Astro.props;
+import '../styles/global.css';
+---
+
+<html lang="ja">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+	</head>
+	<body>
+		<header>
+			<h1>
+				<a href="/">VIVID YELLOW</a>
+			</h1>
+		</header>
+
+		<main>
+			<slot />
+		</main>
+
+		<footer>
+			<p>&copy; 2024 VIVID YELLOW</p>
+		</footer>
+	</body>
+</html>

@@ -1,7 +1,7 @@
 ---
 import { getPosts, getTags } from '../../lib/microcms';
 import type { Post, Tag } from '../../types/blog';
-import '../../styles/global.css';
+import Layout from '../../layouts/Layout.astro';
 
 const tagsResponse = await getTags();
 const postsResponse = await getPosts();
@@ -16,44 +16,22 @@ const tagCounts = tags.map(tag => {
 });
 ---
 
-<html lang="ja">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>タグ一覧 | VIVID YELLOW</title>
-		<meta name="description" content="VIVID YELLOWのタグ一覧ページ" />
-	</head>
-	<body>
-		<header>
-			<h1>
-				<a href="/">VIVID YELLOW</a>
-			</h1>
-		</header>
-
-		<main>
-			<section class="tags-section">
-				<h2>タグ一覧</h2>
-				{tagCounts.length === 0 ? (
-					<p>タグがありません。</p>
-				) : (
-					<div class="tags-grid">
-						{tagCounts.map((tag) => (
-							<div class="tag-card">
-								<h3>
-									<a href={`/tags/${tag.id}`}>{tag.name}</a>
-								</h3>
-								<p class="tag-count">{tag.count}件の記事</p>
-							</div>
-						))}
+<Layout title="タグ一覧 | VIVID YELLOW" description="VIVID YELLOWのタグ一覧ページ">
+	<section class="tags-section">
+		<h2>タグ一覧</h2>
+		{tagCounts.length === 0 ? (
+			<p>タグがありません。</p>
+		) : (
+			<div class="tags-grid">
+				{tagCounts.map((tag) => (
+					<div class="tag-card">
+						<h3>
+							<a href={`/tags/${tag.id}`}>{tag.name}</a>
+						</h3>
+						<p class="tag-count">{tag.count}件の記事</p>
 					</div>
-				)}
-			</section>
-		</main>
-
-		<footer>
-			<p>&copy; 2024 VIVID YELLOW</p>
-		</footer>
-	</body>
-</html>
+				))}
+			</div>
+		)}
+	</section>
+</Layout>

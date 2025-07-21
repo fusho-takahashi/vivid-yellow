@@ -1,61 +1,39 @@
 ---
 import { getPosts } from '../lib/microcms';
 import type { Post } from '../types/blog';
-import '../styles/global.css';
+import Layout from '../layouts/Layout.astro';
 
 const postsResponse = await getPosts();
 const posts: Post[] = postsResponse.contents;
 ---
 
-<html lang="ja">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>VIVID YELLOW</title>
-		<meta name="description" content="日記と技術発信を行うための個人ブログ" />
-	</head>
-	<body>
-		<header>
-			<h1>
-				<a href="/">VIVID YELLOW</a>
-			</h1>
-		</header>
-
-		<main>
-			<section class="posts">
-				<h2>記事一覧</h2>
-				{posts.length === 0 ? (
-					<p>記事がありません。</p>
-				) : (
-					<div class="post-list">
-						{posts.map((post) => (
-							<article class="post-card">
-								<h3>
-									<a href={`/posts/${post.id}`}>{post.title}</a>
-								</h3>
-								<time datetime={post.publishedAt}>
-									{new Date(post.publishedAt).toLocaleDateString('ja-JP')}
-								</time>
-								{post.tags && post.tags.length > 0 && (
-									<div class="tags">
-										{post.tags.map((tag) => (
-											<a href={`/tags/${tag.id}`} class="tag">
-												{tag.name}
-											</a>
-										))}
-									</div>
-								)}
-							</article>
-						))}
-					</div>
-				)}
-			</section>
-		</main>
-
-		<footer>
-			<p>&copy; 2024 VIVID YELLOW</p>
-		</footer>
-	</body>
-</html>
+<Layout title="VIVID YELLOW">
+	<section class="posts">
+		<h2>記事一覧</h2>
+		{posts.length === 0 ? (
+			<p>記事がありません。</p>
+		) : (
+			<div class="post-list">
+				{posts.map((post) => (
+					<article class="post-card">
+						<h3>
+							<a href={`/posts/${post.id}`}>{post.title}</a>
+						</h3>
+						<time datetime={post.publishedAt}>
+							{new Date(post.publishedAt).toLocaleDateString('ja-JP')}
+						</time>
+						{post.tags && post.tags.length > 0 && (
+							<div class="tags">
+								{post.tags.map((tag) => (
+									<a href={`/tags/${tag.id}`} class="tag">
+										{tag.name}
+									</a>
+								))}
+							</div>
+						)}
+					</article>
+				))}
+			</div>
+		)}
+	</section>
+</Layout>

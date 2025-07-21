@@ -1,7 +1,7 @@
 ---
 import { getPost, getPosts } from '../../lib/microcms';
 import type { Post } from '../../types/blog';
-import '../../styles/global.css';
+import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
   const postsResponse = await getPosts();
@@ -14,52 +14,30 @@ const { slug } = Astro.params;
 const post = await getPost(slug as string);
 ---
 
-<html lang="ja">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{post.title} | VIVID YELLOW</title>
-		<meta name="description" content={post.title} />
-	</head>
-	<body>
-		<header>
-			<h1>
-				<a href="/">VIVID YELLOW</a>
-			</h1>
+<Layout title={`${post.title} | VIVID YELLOW`} description={post.title}>
+	<article class="post">
+		<header class="post-header">
+			<h1>{post.title}</h1>
+			<div class="post-header-meta">
+				<time datetime={post.publishedAt}>
+					{new Date(post.publishedAt).toLocaleDateString('ja-JP')}
+				</time>
+				{post.tags && post.tags.length > 0 && (
+					<div class="tags">
+						{post.tags.map((tag) => (
+							<a href={`/tags/${tag.id}`} class="tag">
+								{tag.name}
+							</a>
+						))}
+					</div>
+				)}
+			</div>
 		</header>
 
-		<main>
-			<article class="post">
-				<header class="post-header">
-					<h1>{post.title}</h1>
-					<div class="post-header-meta">
-						<time datetime={post.publishedAt}>
-							{new Date(post.publishedAt).toLocaleDateString('ja-JP')}
-						</time>
-						{post.tags && post.tags.length > 0 && (
-							<div class="tags">
-								{post.tags.map((tag) => (
-									<a href={`/tags/${tag.id}`} class="tag">
-										{tag.name}
-									</a>
-								))}
-							</div>
-						)}
-					</div>
-				</header>
+		<div class="post-content" set:html={post.content}></div>
 
-				<div class="post-content" set:html={post.content}></div>
-
-				<footer class="post-footer">
-					<a href="/" class="back-link">← 記事一覧に戻る</a>
-				</footer>
-			</article>
-		</main>
-
-		<footer>
-			<p>&copy; 2024 VIVID YELLOW</p>
+		<footer class="post-footer">
+			<a href="/" class="back-link">← 記事一覧に戻る</a>
 		</footer>
-	</body>
-</html>
+	</article>
+</Layout>
