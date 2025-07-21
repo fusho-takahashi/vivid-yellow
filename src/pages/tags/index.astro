@@ -84,6 +84,9 @@ const tagCounts = tags.map(tag => {
 		line-height: 1.6;
 		color: var(--text-color);
 		background-color: var(--background-color);
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
 	}
 
 	header {
@@ -127,6 +130,7 @@ const tagCounts = tags.map(tag => {
 	}
 
 	main {
+		flex: 1;
 		max-width: 800px;
 		margin: 2rem auto;
 		padding: 0 1rem;
@@ -184,7 +188,7 @@ const tagCounts = tags.map(tag => {
 		padding: 2rem 0;
 		background-color: var(--light-background);
 		border-top: 1px solid var(--border-color);
-		margin-top: 4rem;
+		margin-top: auto;
 	}
 
 	@media (max-width: 768px) {
