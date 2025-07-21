@@ -24,13 +24,13 @@ const currentTag = tagsResponse.contents.find((t: Tag) => t.id === tag);
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{currentTag?.name}の記事一覧 | 個人ブログ</title>
+		<title>{currentTag?.name}の記事一覧 | VIVID YELLOW</title>
 		<meta name="description" content={`${currentTag?.name}タグの記事一覧`} />
 	</head>
 	<body>
 		<header>
 			<h1>
-				<a href="/">個人ブログ</a>
+				<a href="/">VIVID YELLOW</a>
 			</h1>
 			<nav>
 				<a href="/">ホーム</a>
@@ -84,7 +84,7 @@ const currentTag = tagsResponse.contents.find((t: Tag) => t.id === tag);
 		</main>
 
 		<footer>
-			<p>&copy; 2024 個人ブログ</p>
+			<p>&copy; 2024 VIVID YELLOW</p>
 		</footer>
 	</body>
 </html>
