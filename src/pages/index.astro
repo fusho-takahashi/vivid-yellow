@@ -1,7 +1,7 @@
 ---
+import Layout from '../layouts/Layout.astro';
 import { getPosts } from '../lib/microcms';
 import type { Post } from '../types/blog';
-import Layout from '../layouts/Layout.astro';
 
 const postsResponse = await getPosts();
 const posts: Post[] = postsResponse.contents;
@@ -9,7 +9,6 @@ const posts: Post[] = postsResponse.contents;
 
 <Layout title="VIVID YELLOW">
 	<section class="posts">
-		<h2>記事一覧</h2>
 		{posts.length === 0 ? (
 			<p>記事がありません。</p>
 		) : (
