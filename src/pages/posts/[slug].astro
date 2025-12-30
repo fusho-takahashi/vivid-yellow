@@ -12,9 +12,10 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const post = await getPost(slug as string);
+const ogImagePath = `/og/${slug}.png`;
 ---
 
-<Layout title={`${post.title} | VIVID YELLOW`} description={post.title}>
+<Layout title={`${post.title} | VIVID YELLOW`} description={post.title} ogImage={ogImagePath}>
 	<article class="post">
 		<header class="post-header">
 			<h1>{post.title}</h1>
