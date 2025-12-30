@@ -54,6 +54,7 @@ header h1 {
 }
 
 header h1 a {
+  font-family: 'Bangers';
   color: var(--text-color);
   text-decoration: none;
   transition: color 0.3s ease;
